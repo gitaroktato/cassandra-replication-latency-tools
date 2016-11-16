@@ -1,0 +1,15 @@
+containers:
+  by1node1:
+    image: cassandra:3.0.8
+    environment: {"CASSANDRA_ENDPOINT_SNITCH":"GossipingPropertyFileSnitch", "CASSANDRA_DC":"epam-by1", "CASSANDRA_RACK":"rack1"}
+    expose: [9042]
+    ports: [9042]
+
+  awsnode1:
+    image: cassandra:3.0.8
+    environment: {"CASSANDRA_ENDPOINT_SNITCH":"GossipingPropertyFileSnitch", "CASSANDRA_DC":"aws-ap-northeast", "CASSANDRA_RACK":"rack1"}
+    links: {by1node1: "cassandra"}
+    expose: [9045]
+    ports: {9045: 9042}
+network:
+  slow: 250ms 10ms distribution normal
