@@ -13,4 +13,15 @@ ip link
 tc qdisc add dev veth96e4f85 root netem delay 250ms
 tc qdisc show
 ```
+
+# Useful alias command
+```
 alias docker-gc='docker ps -aq | xargs docker rm -f'
+```
+
+# Install python drivers
+```
+apt update
+apt install python-pip
+pip install cassandra-driver
+```
