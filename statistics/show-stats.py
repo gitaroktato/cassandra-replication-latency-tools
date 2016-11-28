@@ -13,9 +13,9 @@ def get_mean_as_list(latency_list):
     return [np.mean(np.array(latency_list_node1).astype(int)) for i in latency_list_node1]
 
 # print latency_list
-latency_list_node1 = parse_logs('statistics/latency-node1.log')
-latency_list_node2 = parse_logs('statistics/latency-node2.log')
-latency_list_node3 = parse_logs('statistics/latency-node3.log')
+latency_list_node1 = parse_logs('statistics/latency-simulation-250ms-node1.log')
+latency_list_node2 = parse_logs('statistics/latency-simulation-250ms-node2.log')
+latency_list_node3 = parse_logs('statistics/latency-simulation-250ms-node3.log')
 
 mean_list1 = get_mean_as_list(latency_list_node1);
 mean_list2 = get_mean_as_list(latency_list_node2);

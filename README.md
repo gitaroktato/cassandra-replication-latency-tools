@@ -96,11 +96,25 @@ The scripts were tested with boot2docker on Windows.
 
 ## Setting up and starting containers
 Use the `create-cluster.sh` bash script to setup your cluster with docker
+You have to start the nodes manually if they failed to start up properly.
+```
+docker start by1node3
+```
 
 ## Adding delays to WAN network on AWS nodes
 ```
 docker exec -ti --privileged awsnode1 tc qdisc add dev eth1 root netem delay 25ms
 docker exec -ti --privileged awsnode1 tc qdisc show
+```
+
+## Speeding up again
+```
+docker exec -ti --privileged awsnode1 tc qdisc del dev eth0 root netem
+```
+
+## Adding delays to all of the AWS instances
+```
+# add-delay.sh 250ms
 ```
 
 ## Checking cluster status
@@ -112,6 +126,29 @@ docker exec by1node1 nodetool status
 ```
 docker ps -qa | xargs docker rm -f
 ```
+
+## Running the tests
+Start on by1node1
+```
+python ./writer.py 192.168.1.10 cassandra cassandra 3
+```
+Start on awsnode1
+```
+python ./reader.py 192.168.2.10 cassandra cassandra
+```
+Start on awsnode2
+```
+python ./reader.py 192.168.2.11 cassandra cassandra
+```
+Start on awsnode3
+```
+python ./reader.py 192.168.2.12 cassandra cassandra
+```
+# Results in simulation (no delay configured)
+![Testing in simulation without delay](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_simulation_without_delay.png)
+
+# Results in simulation (250ms delay)
+![Testing in simulation without delay](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_simulation_250ms_delay.png)
 
 # How it works?
 **TBD**

@@ -46,6 +46,6 @@ createNode 'by1node1' 'epam-by1' 'internal-by1' '192.168.1.10' '1.1.1.10' '1.1.1
 createNode 'by1node2' 'epam-by1' 'internal-by1' '192.168.1.11' '1.1.1.11' '1.1.1.10'
 createNode 'by1node3' 'epam-by1' 'internal-by1' '192.168.1.12' '1.1.1.12' '1.1.1.10'
 #
-createNode 'awsnode1' 'aws-ap-northeast' 'internal-aws' '192.168.2.10' '1.1.1.20' '1.1.1.10'
-createNode 'awsnode2' 'aws-ap-northeast' 'internal-aws' '192.168.2.11' '1.1.1.21' '1.1.1.20'
-createNode 'awsnode3' 'aws-ap-northeast' 'internal-aws' '192.168.2.12' '1.1.1.22' '1.1.1.20'
+createNode 'awsnode1' 'AWS-AP-NORTHEAST' 'internal-aws' '192.168.2.10' '1.1.1.20' '1.1.1.10'
+createNode 'awsnode2' 'AWS-AP-NORTHEAST' 'internal-aws' '192.168.2.11' '1.1.1.21' '1.1.1.20'
+createNode 'awsnode3' 'AWS-AP-NORTHEAST' 'internal-aws' '192.168.2.12' '1.1.1.22' '1.1.1.20'

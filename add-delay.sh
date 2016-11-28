@@ -1,12 +1,6 @@
 #!/bin/bash
-function getVirtualEthernetIdFromContainerId {
-  CONTAINER=$1
-  docker exec $CONTAINER ip a | grep -B3 1.1.1. | grep '@if' | sed -n 's/.*if\([0-9][0-9]*\).*/\1/p'
-}
+aws_nodes=(awsnode1 awsnode2 awsnode3)
 
-function getVirtualEthernetById {
-  ip link | grep "^${1}:"
-}
-
-RESULT=$(getVirtualEthernetIdFromContainerId 'awsnode1')
-getVirtualEthernetById $RESULT
+for i in ${aws_nodes[@]}; do
+        docker exec --privileged $i tc qdisc add dev eth1 root netem delay $1
+done
