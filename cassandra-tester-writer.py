@@ -27,15 +27,16 @@ truncate_test = SimpleStatement("TRUNCATE replicated.test",
     consistency_level=ConsistencyLevel.ALL)
 truncate_test_count = SimpleStatement("TRUNCATE replicated.test_count",
         consistency_level=ConsistencyLevel.ALL)
+insert_into_test = SimpleStatement("""
+    INSERT INTO replicated.test (id, insertion_date, desired_response_counter, some_data)
+    VALUES (%s, now(), %s, 'dummy');
+""", consistency_level=ConsistencyLevel.LOCAL_ONE)
 
 while True:
         # Inserting new test value
         next_uuid = uuid.uuid1()
         response_counter = 0
-        session.execute("""
-            INSERT INTO replicated.test (id, insertion_date, desired_response_counter, some_data)
-            VALUES ({}, now(), {}, 'dummy');
-        """.format(next_uuid, desired_response_counter))
+        session.execute(insert_into_test, (next_uuid, desired_response_counter))
         # Waiting for all responses to arrive
         while response_counter < desired_response_counter:
             rs = session.execute ("""
