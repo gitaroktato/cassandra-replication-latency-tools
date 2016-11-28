@@ -65,10 +65,8 @@ UDP buffer size:  208 KByte (default)
 ```
 
 # NTP Sync
-When running on real servers, you have to set-up NTP sync between them, or you'll measurements won't be accurate.
-For example our [real severs](#Running tests on real servers) show around 110ms latency without any NTP configuration.
-[images/latency_before_ntp_sync.png]
-
+When running on real servers, you have to set-up NTP sync between them, or you'll measurements won't be accurate. For example our [real severs](#Running tests on real servers) show around **110 ms** latency without any NTP configuration.
+![Stats before NTP sync](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_before_ntp_sync.png)
 ## Installing NTP
 ```
 sudo yum install ntp
