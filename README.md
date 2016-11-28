@@ -65,7 +65,7 @@ UDP buffer size:  208 KByte (default)
 ```
 
 # NTP Sync
-When running on real servers, you have to set-up NTP sync between them, or you'll measurements won't be accurate. For example our [real severs](#Running tests on real servers) show around **110 ms** latency without any NTP configuration.
+When running on real servers, you have to set-up NTP sync between them, or you'll measurements won't be accurate. For example our [real severs](#running-tests-on-real-servers) show around **115 ms** latency without any NTP configuration.
 ![Stats before NTP sync](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_before_ntp_sync.png)
 ## Installing NTP
 ```
@@ -73,34 +73,44 @@ sudo yum install ntp
 ```
 
 ## Setting up common NTP server
+```
+# vi /etc/ntp.conf
+```
+**TBD**
 
 ## Checking the settings
+```
+# ntpstat
+# ntpq -p
+```
 
 ## Related links
 [https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm]
 [http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html]
+[http://www.ntp.org/ntpfaq/NTP-a-faq.htm]
 
-# Running in simulation
+# Running tests in simulation
+The scripts were tested with boot2docker on Windows.
+
 **TBD**
-## Determining network interface ID in bridged network
 
-```
-ln -s  /var/run/docker/netns /var/run/netns
-ip netns list
-ip netns exec 63739904f29c ip a
-```
+## Setting up and starting containers
+Use the `create-cluster.sh` bash script to setup your cluster with docker
 
-## Adding delays to this network
+## Adding delays to WAN network on AWS nodes
 ```
-docker exec awsnode1 ip a | grep -B3 1.1.1.
-ip link
-tc qdisc add dev veth96e4f85 root netem delay 250ms
-tc qdisc show
+docker exec -ti --privileged awsnode1 tc qdisc add dev eth1 root netem delay 25ms
+docker exec -ti --privileged awsnode1 tc qdisc show
 ```
 
-## Useful alias command
+## Checking cluster status
 ```
-alias docker-gc='docker ps -aq | xargs docker rm -f'
+docker exec by1node1 nodetool status
+```
+
+## Destroying all containers
+```
+docker ps -qa | xargs docker rm -f
 ```
 
 # How it works?

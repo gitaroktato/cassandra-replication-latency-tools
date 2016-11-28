@@ -6,7 +6,10 @@ docker network create --subnet=192.168.1.0/24 internal-by1
 docker network create --subnet=192.168.2.0/24 internal-aws
 
 # Just getting rid of all iptalbes rules.
-# sudo iptables -F
+function dropFiltersInIPTables {
+    docker run --net=host --privileged --rm alpine \
+      /bin/sh -c 'apk update; apk add iptables; iptables -F'
+}
 
 function createNode {
     NAME=$1
@@ -23,6 +26,8 @@ function createNode {
       -e "CASSANDRA_SEEDS=$SEED_NODES" \
       -e "CASSANDRA_LISTEN_ADDRESS=$INTERNAL_IP" \
       -e "CASSANDRA_BROADCAST_ADDRESS=$EXTERNAL_IP" \
+      -e "MAX_HEAP_SIZE=512M" \
+      -e "HEAP_NEWSIZE=128M" \
       --net=$NETWORK_INTERFACE \
       --ip=$INTERNAL_IP \
       -d cassandra:3.0.8
@@ -35,12 +40,12 @@ function createNode {
     docker start $NAME
 }
 
+dropFiltersInIPTables
+
 createNode 'by1node1' 'epam-by1' 'internal-by1' '192.168.1.10' '1.1.1.10' '1.1.1.10'
 createNode 'by1node2' 'epam-by1' 'internal-by1' '192.168.1.11' '1.1.1.11' '1.1.1.10'
-# createNode 'by1node3' 'epam-by1' 'internal-by1' '192.168.1.12' '1.1.1.12' '1.1.1.10'
+createNode 'by1node3' 'epam-by1' 'internal-by1' '192.168.1.12' '1.1.1.12' '1.1.1.10'
 #
 createNode 'awsnode1' 'aws-ap-northeast' 'internal-aws' '192.168.2.10' '1.1.1.20' '1.1.1.10'
 createNode 'awsnode2' 'aws-ap-northeast' 'internal-aws' '192.168.2.11' '1.1.1.21' '1.1.1.20'
-# createNode 'awsnode3' 'aws-ap-northeast' 'internal-aws' '192.168.2.12' '1.1.1.22' '1.1.1.20'
-
-# # Python test code
+createNode 'awsnode3' 'aws-ap-northeast' 'internal-aws' '192.168.2.12' '1.1.1.22' '1.1.1.20'
