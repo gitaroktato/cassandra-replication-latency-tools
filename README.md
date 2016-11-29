@@ -150,5 +150,8 @@ python ./reader.py 192.168.2.12 cassandra cassandra
 # Results in simulation (250ms delay)
 ![Testing in simulation without delay](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_simulation_250ms_delay.png)
 
+# Results in simulation (500ms delay)
+![Testing in simulation without delay](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_simulation_500ms_delay.png)
+
 # How it works?
 **TBD**

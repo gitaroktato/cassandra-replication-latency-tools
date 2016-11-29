@@ -1,14 +1,13 @@
 #!/usr/bin/python-pip
 import sys
 import uuid
+import time
 
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.policies import DCAwareRoundRobinPolicy
 from cassandra.query import SimpleStatement
 from cassandra import ConsistencyLevel
-
-from time import time
 
 # Parsing args
 hostname = sys.argv[1]
@@ -49,3 +48,4 @@ while True:
         print 'Initiating next round'
         session.execute(truncate_test)
         session.execute(truncate_test_count)
+        time.sleep(5)

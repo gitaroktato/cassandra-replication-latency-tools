@@ -2,6 +2,8 @@
 import string
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+print os.getcwd()
 
 def parse_logs(file_name):
     stats = open(file_name, 'r')
@@ -10,22 +12,28 @@ def parse_logs(file_name):
     return map(lambda line: string.split(line, ':')[1], lines)
 
 def get_mean_as_list(latency_list):
-    return [np.mean(np.array(latency_list_node1).astype(int)) for i in latency_list_node1]
+    return [np.mean(np.array(latency_list).astype(int)) for i in latency_list]
 
 # print latency_list
-latency_list_node1 = parse_logs('statistics/latency-simulation-250ms-node1.log')
-latency_list_node2 = parse_logs('statistics/latency-simulation-250ms-node2.log')
-latency_list_node3 = parse_logs('statistics/latency-simulation-250ms-node3.log')
+latency_list_by1node2 = parse_logs('statistics/latency-simulation-250ms-by1node2.log')
+latency_list_by1node3 = parse_logs('statistics/latency-simulation-250ms-by1node3.log')
+latency_list_node1 = parse_logs('statistics/latency-simulation-250ms-awsnode1.log')
+latency_list_node2 = parse_logs('statistics/latency-simulation-250ms-awsnode2.log')
+latency_list_node3 = parse_logs('statistics/latency-simulation-250ms-awsnode3.log')
 
-mean_list1 = get_mean_as_list(latency_list_node1);
-mean_list2 = get_mean_as_list(latency_list_node2);
-mean_list3 = get_mean_as_list(latency_list_node3);
+mean_by1 = get_mean_as_list(latency_list_by1node2);
+mean_aws = get_mean_as_list(latency_list_node1);
 
-plt.plot(range(0,len(latency_list_node1)), latency_list_node1, 'bs')
-plt.plot(range(0,len(latency_list_node2)), latency_list_node2, 'rs')
-plt.plot(range(0,len(latency_list_node3)), latency_list_node3, 'gs')
+by1node2, = plt.plot(range(0,len(latency_list_by1node2)), latency_list_by1node2, 'r^', color='#bccad6', label='by1node2')
+by1node3, = plt.plot(range(0,len(latency_list_by1node3)), latency_list_by1node3, 'r^', color='#8d9db6', label='by1node3')
+#
+awsnode1, = plt.plot(range(0,len(latency_list_node1)), latency_list_node1, 'rs', color='#f9ccac', label='awsnode1')
+awsnode2, = plt.plot(range(0,len(latency_list_node2)), latency_list_node2, 'rs', color='#f4a688', label='awsnode2')
+awsnode3, = plt.plot(range(0,len(latency_list_node3)), latency_list_node3, 'rs', color='#e0876a', label='awsnode3')
 # Means
-plt.plot(range(0,len(latency_list_node1)), mean_list1, 'b--')
-plt.plot(range(0,len(latency_list_node2)), mean_list2, 'r--')
-plt.plot(range(0,len(latency_list_node2)), mean_list3, 'g--')
+mean_by1_label, = plt.plot(range(0,len(latency_list_by1node2)), mean_by1, 'b', label='mean by1')
+mean_aws_label, = plt.plot(range(0,len(latency_list_node1)), mean_aws, 'r', label='mean aws')
+#
+plt.legend(handles=[by1node2, by1node3, awsnode1, awsnode2, awsnode3, mean_by1_label, mean_aws_label])
+plt.grid(True)
 plt.show()
