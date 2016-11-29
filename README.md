@@ -32,36 +32,19 @@ TRUNCATE replicated.test_count;
 ```
 
 # Running tests on real servers
-We have 3 nodes in Belarus and 3 nodes in Asia Pacific (Tokyo). The network characteristics between the two locations are the following
-```
-$ sudo iperf -c .... -u -t 60
-------------------------------------------------------------
-Client connecting to ...., UDP port 5001
-Sending 1470 byte datagrams, IPG target: 11215.21 us (kalman adjust)
-UDP buffer size:  208 KByte (default)
-------------------------------------------------------------
-[  3] local .... port 43529 connected with .... port 5001
-[ ID] Interval       Transfer     Bandwidth
-[  3]  0.0-60.0 sec  7.50 MBytes  1.05 Mbits/sec
-[  3] Sent 5351 datagrams
-[  3] Server Report:
-[  3]  0.0-60.0 sec  7.41 MBytes  1.04 Mbits/sec   0.100 ms   66/ 5351 (1.2%)
-```
+We have 3 nodes in Belarus and 3 nodes in Asia Pacific (Tokyo). The latency between the two locations are the following
+**TBD Global map**
 
 ```
-$ sudo iperf -c ... -u -b 100m -t 60
-------------------------------------------------------------
-Client connecting to , UDP port 5001
-Sending 1470 byte datagrams, IPG target: 117.60 us (kalman adjust)
-UDP buffer size:  208 KByte (default)
-------------------------------------------------------------
-[  3] local ... port 55882 connected with ... port 5001
-[ ID] Interval       Transfer     Bandwidth
-[  3]  0.0-60.0 sec   715 MBytes   100 Mbits/sec
-[  3] Sent 510205 datagrams
-[  3] Server Report:
-[  3]  0.0-60.0 sec   702 MBytes  98.1 Mbits/sec   0.040 ms 9805/510205 (1.9%)
-[  3] 0.00-60.00 sec  10 datagrams received out-of-order
+$ traceroute -T -p 7000 ...
+15 ec2-...ap-northeast-1.compute.amazonaws.com (...)  198.325 ms  205.944 ms  206.179 ms
+15 ec2-...ap-northeast-1.compute.amazonaws.com (...)  198.464 ms  205.289 ms  197.268 ms
+15  ec2-...ap-northeast-1.compute.amazonaws.com (...)  196.553 ms  197.667 ms  197.117 ms
+15  ec2-...ap-northeast-1.compute.amazonaws.com (...)  201.749 ms  203.529 ms  203.689 ms
+15  ec2-...ap-northeast-1.compute.amazonaws.com (...)  1403.528 ms  210.139 ms  203.983 ms
+15  ec2-...ap-northeast-1.compute.amazonaws.com (...)  203.817 ms  201.101 ms  199.461 ms
+15  ec2-...ap-northeast-1.compute.amazonaws.com (...)  197.795 ms  195.290 ms  197.727 ms
+15  ec2-...ap-northeast-1.compute.amazonaws.com (...)  208.103 ms  207.926 ms  206.635 ms
 ```
 
 # NTP Sync
