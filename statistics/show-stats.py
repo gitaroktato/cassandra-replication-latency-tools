@@ -15,11 +15,11 @@ def get_mean_as_list(latency_list):
     return [np.mean(np.array(latency_list).astype(int)) for i in latency_list]
 
 # print latency_list
-latency_list_by1node2 = parse_logs('statistics/latency-simulation-nodelay-by1node2.log')
-latency_list_by1node3 = parse_logs('statistics/latency-simulation-nodelay-by1node3.log')
-latency_list_node1 = parse_logs('statistics/latency-simulation-nodelay-awsnode1.log')
-latency_list_node2 = parse_logs('statistics/latency-simulation-nodelay-awsnode2.log')
-latency_list_node3 = parse_logs('statistics/latency-simulation-nodelay-awsnode3.log')
+latency_list_by1node2 = parse_logs('statistics/latency-real-ntp128ms-by1node2.log')
+latency_list_by1node3 = parse_logs('statistics/latency-real-ntp128ms-by1node3.log')
+latency_list_node1 = parse_logs('statistics/latency-real-ntp128ms-awsnode1.log')
+latency_list_node2 = parse_logs('statistics/latency-real-ntp128ms-awsnode2.log')
+latency_list_node3 = parse_logs('statistics/latency-real-ntp128ms-awsnode3.log')
 
 mean_by1 = get_mean_as_list(latency_list_by1node2);
 mean_aws = get_mean_as_list(latency_list_node1);
@@ -36,4 +36,6 @@ mean_aws_label, = plt.plot(range(0,len(latency_list_node1)), mean_aws, 'r', labe
 #
 plt.legend(handles=[by1node2, by1node3, awsnode1, awsnode2, awsnode3, mean_by1_label, mean_aws_label])
 plt.grid(True)
+plt.yticks(np.arange(0, 1200, 50))
+plt.xlim(0, 210)
 plt.show()

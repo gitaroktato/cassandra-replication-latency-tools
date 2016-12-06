@@ -49,7 +49,7 @@ $ traceroute -T -p 7000 ...
 
 # NTP Sync
 When running on real servers, you have to set-up NTP sync between them, or you'll measurements won't be accurate. For example our [real severs](#running-tests-on-real-servers) show around **115 ms** latency without any NTP configuration.
-![Stats before NTP sync](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_before_ntp_sync.png)
+![Stats before NTP sync](images/latency_before_ntp_sync.png)
 ## Installing NTP
 ```
 sudo yum install ntp
@@ -72,10 +72,49 @@ sudo yum install ntp
 [http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-time.html]
 [http://www.ntp.org/ntpfaq/NTP-a-faq.htm]
 
-# Running tests in simulation
-The scripts were tested with boot2docker on Windows.
+# Test results after NTP sync
+We've set NTPd to use the same server for synchronization. `ntpstat` gave us the following results after one day of continuous synchronization.
+```
+[oresztesz_margaritisz@epam.com@... ~]$ ntpstat
+synchronised to NTP server (117.102.176.202) at stratum 3
+   time correct to within 169 ms
+   polling server every 1024 s
+```
+```
+[oresztesz_margaritisz@epam.com@... ~]$ ntpstat
+synchronised to NTP server (117.102.176.202) at stratum 3
+   time correct to within 180 ms
+   polling server every 1024 s
+```
+```
+[cassandra@... bin]$ ntpstat
+synchronised to NTP server (117.102.176.202) at stratum 3
+   time correct to within 135 ms
+   polling server every 1024 s
+```
+```
+[ec2-user@... ~]$ ntpstat
+synchronised to NTP server (117.102.176.202) at stratum 3
+   time correct to within 96 ms
+   polling server every 1024 s
+```
+```
+[ec2-user@... ~]$ ntpstat
+synchronised to NTP server (117.102.176.202) at stratum 3
+   time correct to within 80 ms
+   polling server every 1024 s
+```
+```
+[ec2-user@... ~]$ ntpstat
+synchronised to NTP server (117.102.176.202) at stratum 3
+   time correct to within 50 ms
+   polling server every 1024 s
+```
+Comparing the time correctness with the [network latency between the nodes](#running-tests-on-real-servers) reveals, that the results won't give us the answer precisely. But it can be good enough for an approximation.
+![Stats after NTP sync](images/latency_ntp_with_128ms_sync.png)
 
-**TBD**
+# Running tests in simulation
+The scripts were tested with boot2docker on Windows. Note how widespread are the measured results. This wide distribution of latency can't be found, when running the tests on the ![real servers](#test-results-after-ntp-sync).
 
 ## Setting up and starting containers
 Use the `create-cluster.sh` bash script to setup your cluster with docker
@@ -128,13 +167,13 @@ Start on awsnode3
 python ./reader.py 192.168.2.12 cassandra cassandra
 ```
 # Results in simulation (no delay configured)
-![Testing in simulation without delay](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_simulation_without_delay.png)
+![Testing in simulation without delay](images/latency_simulation_without_delay.png)
 
 # Results in simulation (250ms delay)
-![Testing in simulation without delay](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_simulation_250ms_delay.png)
+![Testing in simulation without delay](images/latency_simulation_250ms_delay.png)
 
 # Results in simulation (500ms delay)
-![Testing in simulation without delay](https://github.com/gitaroktato/cassandra-cluster-simulation/raw/master/images/latency_simulation_500ms_delay.png)
+![Testing in simulation without delay](images/latency_simulation_500ms_delay.png)
 
 # How it works?
 **TBD**
