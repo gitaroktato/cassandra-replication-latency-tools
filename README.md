@@ -114,7 +114,7 @@ Comparing the time correctness with the [network latency between the nodes](#run
 ![Stats after NTP sync](images/latency_ntp_with_128ms_sync.png)
 
 # Running tests in simulation
-The scripts were tested with boot2docker on Windows. Note how widespread are the measured results. This wide distribution of latency can't be found, when running the tests on the ![real servers](#test-results-after-ntp-sync).
+The scripts were tested with boot2docker on Windows. Note how widespread are the measured results. This wide distribution of latency can't be found, when running the tests on the [real servers](#test-results-after-ntp-sync).
 
 ## Setting up and starting containers
 Use the `create-cluster.sh` bash script to setup your cluster with docker
